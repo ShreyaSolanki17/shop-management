@@ -1,5 +1,3 @@
-#This will show the successful implementation of add_sweet() method.
-
 class SweetStore:
     def __init__(self):
         self.items = {}
@@ -16,3 +14,9 @@ class SweetStore:
 
     def list_items(self):
         return list(self.items.values())
+    
+    def delete_sweet(self, item_id):
+        if item_id not in self.items:
+            raise ValueError("Sweet ID does not exist")
+        del self.items[item_id]
+

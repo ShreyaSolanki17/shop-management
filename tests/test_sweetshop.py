@@ -29,7 +29,6 @@ class TestSweetStore(unittest.TestCase):
             SweetItem("id1004", "Ladoo", "Festival", 10.0, 10)
         self.assertEqual(str(context.exception), "ID must be an integer")
 
-#It will cause AssertionError because price is mentioned "free".
     def test_sweet_invalid_price_type(self):
         with self.assertRaises(TypeError) as context:
             SweetItem(1005, "Ladoo", "Festival", "free", 10)
@@ -39,6 +38,22 @@ class TestSweetStore(unittest.TestCase):
         with self.assertRaises(TypeError) as context:
             SweetItem(1006, "Ladoo", 123, 10.0, 10)
         self.assertEqual(str(context.exception), "Name and category must be strings")
+
+#Delete feature for the SweetStore
+    def test_delete_sweet(self):
+        store = SweetStore()
+        item = SweetItem(1001, "Gulab Jamun", "Milk-Based", 50.0, 20)
+        store.items[1001] = item  
+
+        store.delete_sweet(1001)
+        self.assertIsNone(store.get_item_by_id(1001))
+        self.assertEqual(len(store.list_items()), 0)
+
+    def test_delete_nonexistent_sweet(self):
+        store = SweetStore()
+        with self.assertRaises(ValueError) as context:
+            store.delete_sweet(9999)
+        self.assertEqual(str(context.exception), "Sweet ID does not exist")
 
 if __name__ == '__main__':
     unittest.main()
