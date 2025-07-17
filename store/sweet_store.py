@@ -43,4 +43,21 @@ class SweetStore:
             key=lambda x: x.price if by == "price" else x.name
         )
 
-    
+    def purchase_sweet(self, item_id, quantity):
+        item = self.get_item_by_id(item_id)
+        if not item:
+            raise ValueError("Sweet ID does not exist")
+        if quantity <= 0:
+            raise ValueError("Quantity must be greater than zero")
+        if item.quantity < quantity:
+            raise ValueError("Insufficient stock")
+        item.quantity -= quantity
+
+    def restock_sweet(self, item_id, quantity):
+        item = self.get_item_by_id(item_id)
+        if not item:
+            raise ValueError("Sweet ID does not exist")
+        if quantity <= 0:
+            raise ValueError("Restock quantity must be greater than zero")
+        item.quantity += quantity
+
