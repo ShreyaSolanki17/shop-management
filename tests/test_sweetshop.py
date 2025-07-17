@@ -55,6 +55,20 @@ class TestSweetStore(unittest.TestCase):
             store.delete_sweet(9999)
         self.assertEqual(str(context.exception), "Sweet ID does not exist")
 
+    def test_view_sweets(self):
+        store = SweetStore()
+        item1 = SweetItem(1001, "Gulab Jamun", "Milk-Based", 50.0, 20)
+        item2 = SweetItem(1002, "Kaju Katli", "Nut-Based", 60.0, 15)
+        store.add_sweet(item1)
+        store.add_sweet(item2)
+
+        sweets = store.view_sweets()
+        self.assertEqual(len(sweets), 2)
+        self.assertIn(item1, sweets)
+        self.assertIn(item2, sweets)
+
+
+
 if __name__ == '__main__':
     unittest.main()
 

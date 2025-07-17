@@ -20,3 +20,7 @@ class SweetStore:
             raise ValueError("Sweet ID does not exist")
         del self.items[item_id]
 
+    def view_sweets(self):
+        return list(self.items.values())
+
+    
