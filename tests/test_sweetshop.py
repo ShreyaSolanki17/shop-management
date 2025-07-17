@@ -39,7 +39,6 @@ class TestSweetStore(unittest.TestCase):
             SweetItem(1006, "Ladoo", 123, 10.0, 10)
         self.assertEqual(str(context.exception), "Name and category must be strings")
 
-#Delete feature for the SweetStore
     def test_delete_sweet(self):
         store = SweetStore()
         item = SweetItem(1001, "Gulab Jamun", "Milk-Based", 50.0, 20)
@@ -66,6 +65,48 @@ class TestSweetStore(unittest.TestCase):
         self.assertEqual(len(sweets), 2)
         self.assertIn(item1, sweets)
         self.assertIn(item2, sweets)
+
+    def test_search_sweets(self):
+        store = SweetStore()
+        item1 = SweetItem(1001, "Kaju Katli", "Nut-Based", 60.0, 10)
+        item2 = SweetItem(1002, "Gulab Jamun", "Milk-Based", 30.0, 15)
+        item3 = SweetItem(1003, "Rasgulla", "Milk-Based", 40.0, 12)
+        store.add_sweet(item1)
+        store.add_sweet(item2)
+        store.add_sweet(item3)
+
+        # Search by name
+        results = store.search_sweets(name="Gulab")
+        self.assertEqual(results, [item2])
+
+        # Search by category
+        results = store.search_sweets(category="Milk-Based")
+        self.assertIn(item2, results)
+        self.assertIn(item3, results)
+        self.assertEqual(len(results), 2)
+
+        # Search by price range
+        results = store.search_sweets(min_price=35.0, max_price=65.0)
+        self.assertIn(item1, results)
+        self.assertIn(item3, results)
+        self.assertEqual(len(results), 2)
+
+    def test_sort_sweets(self):
+        store = SweetStore()
+        item1 = SweetItem(1001, "Kaju Katli", "Nut-Based", 60.0, 10)
+        item2 = SweetItem(1002, "Gulab Jamun", "Milk-Based", 30.0, 15)
+        item3 = SweetItem(1003, "Barfi", "Milk-Based", 45.0, 8)
+        store.add_sweet(item1)
+        store.add_sweet(item2)
+        store.add_sweet(item3)
+
+        # Sort by price
+        sorted_by_price = store.sort_sweets(by="price")
+        self.assertEqual(sorted_by_price, [item2, item3, item1])
+
+        # Sort by name
+        sorted_by_name = store.sort_sweets(by="name")
+        self.assertEqual(sorted_by_name, [item3, item2, item1])
 
 
 
