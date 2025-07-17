@@ -26,12 +26,12 @@ def main():
                 quantity = int(input("Enter Quantity: "))
                 item = SweetItem(id, name, category, price, quantity)
                 store.add_sweet(item)
-                print("✅ Sweet added successfully.")
+                print(" Sweet added successfully.")
 
             elif choice == "2":
                 id = int(input("Enter ID to delete: "))
                 store.delete_sweet(id)
-                print("🗑️ Sweet deleted.")
+                print(" Sweet deleted.")
 
             elif choice == "3":
                 items = store.list_items()
@@ -55,7 +55,7 @@ def main():
                     for item in results:
                         print(item)
                 else:
-                    print("🔍 No matching sweets found.")
+                    print(" No matching sweets found.")
 
             elif choice == "5":
                 by = input("Sort by 'price' or 'name': ").strip()
@@ -73,17 +73,17 @@ def main():
                 id = int(input("Enter ID to restock: "))
                 qty = int(input("Enter Quantity: "))
                 store.restock_sweet(id, qty)
-                print("📦 Restock complete.")
+                print(" Restock complete.")
 
             elif choice == "8":
-                print("👋 Exiting...")
+                print("Exiting...")
                 break
 
             else:
-                print("❌ Invalid choice. Try again.")
+                print(" Invalid choice. Try again.")
 
         except ValueError as e:
-            print(f"🚫 Error: {e}")
+            print(f" Error: {e}")
 
 if __name__ == "__main__":
     main()

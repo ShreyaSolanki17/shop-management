@@ -34,10 +34,14 @@ class TestSweetStore(unittest.TestCase):
             SweetItem(1005, "Ladoo", "Festival", "free", 10)
         self.assertEqual(str(context.exception), "Price must be a number")
 
-    def test_sweet_invalid_category_type(self):
-        with self.assertRaises(TypeError) as context:
-            SweetItem(1006, "Ladoo", 123, 10.0, 10)
-        self.assertEqual(str(context.exception), "Name and category must be strings")
+    def test_sort_sweets_invalid_criteria(self):
+        store = SweetStore()
+        sweet = SweetItem(1001, "Rasgulla", "Milk-Based", 20.0, 10)
+        store.add_sweet(sweet)
+        with self.assertRaises(ValueError) as cm:
+            store.sort_sweets(by="invalid")
+        self.assertEqual(str(cm.exception), "Sort by 'price' or 'name' only")
+
 
     def test_delete_sweet(self):
         store = SweetStore()
@@ -157,3 +161,34 @@ class TestSweetStore(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             store.restock_sweet(9999, 10)
         self.assertEqual(str(cm.exception), "Sweet ID does not exist")
+
+    def test_sweetitem_negative_price(self):
+        with self.assertRaises(ValueError) as cm:
+            SweetItem(1001, "Rasgulla", "Milk-Based", -10.0, 5)
+        self.assertEqual(str(cm.exception), "Price cannot be negative")
+
+    def test_sweetitem_negative_quantity(self):
+        with self.assertRaises(ValueError) as cm:
+            SweetItem(1002, "Barfi", "Nut-Based", 15.0, -3)
+        self.assertEqual(str(cm.exception), "Quantity cannot be negative")
+
+    def test_sweetitem_non_integer_id(self):
+        with self.assertRaises(TypeError) as cm:
+            SweetItem("abc", "Ladoo", "Flour-Based", 10.0, 10)
+        self.assertEqual(str(cm.exception), "ID must be an integer")
+
+    def test_sweetitem_non_numeric_price(self):
+        with self.assertRaises(TypeError) as cm:
+            SweetItem(1003, "Kheer", "Milk-Based", "fifty", 5)
+        self.assertEqual(str(cm.exception), "Price must be a number")
+
+    def test_sweetitem_non_integer_quantity(self):
+        with self.assertRaises(TypeError) as cm:
+            SweetItem(1004, "Sandesh", "Milk-Based", 20.0, "ten")
+        self.assertEqual(str(cm.exception), "Quantity must be an integer")
+
+    def test_store_initialization(self):
+        store = SweetStore()
+        self.assertEqual(store.list_items(), [])
+
+

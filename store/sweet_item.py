@@ -13,8 +13,12 @@ class SweetItem:
         if not isinstance(name, str) or not isinstance(category, str):
             raise TypeError("Name and category must be strings")       
     
+    
         self.id = id
         self.name = name
         self.category = category
         self.price = price
         self.quantity = quantity
+
+        def __init__(self):
+         self.items = {}
