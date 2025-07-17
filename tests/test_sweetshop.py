@@ -137,4 +137,23 @@ class TestSweetStore(unittest.TestCase):
             store.purchase_sweet(1003, -1)
         self.assertEqual(str(cm.exception), "Quantity must be greater than zero")
 
-    
+    def test_restock_sweet(self):
+        store = SweetStore()
+        item = SweetItem(1001, "Gulab Jamun", "Milk-Based", 50.0, 10)
+        store.add_sweet(item)
+        store.restock_sweet(1001, 5)
+        self.assertEqual(store.get_item_by_id(1001).quantity, 15)
+
+    def test_restock_negative_quantity(self):
+        store = SweetStore()
+        item = SweetItem(1002, "Kaju Katli", "Nut-Based", 60.0, 8)
+        store.add_sweet(item)
+        with self.assertRaises(ValueError) as cm:
+            store.restock_sweet(1002, -3)
+        self.assertEqual(str(cm.exception), "Restock quantity must be greater than zero")
+
+    def test_restock_nonexistent_sweet(self):
+        store = SweetStore()
+        with self.assertRaises(ValueError) as cm:
+            store.restock_sweet(9999, 10)
+        self.assertEqual(str(cm.exception), "Sweet ID does not exist")
